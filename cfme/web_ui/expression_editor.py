@@ -12,6 +12,7 @@ import re
 import sys
 import types
 from utils.pretty import Pretty
+from utils import version
 
 
 def _make_button(title):
@@ -34,8 +35,12 @@ def _expressions_root():
 # Buttons container
 buttons = Region(
     locators=dict(
-        commit="//img[@alt='Commit expression element changes']",
-        discard="//img[@alt='Discard expression element changes']",
+        commit=version.pick({'5.6': "//img[@title='Commit expression element changes']",
+                             version.LATEST: "//button[@title='Commit expression element changes']"}
+                            ),
+        discard=version.pick({'5.6': "//img[@alt='Discard expression element changes']",
+                              version.LATEST: "//button[@alt='Discard expression element changes']"}
+                             ),
         remove="//span[not(contains(@style, 'none'))]//img[@alt='Remove this expression element']",
         NOT="//span[not(contains(@style, 'none'))]" +
             "//img[@alt='Wrap this expression element with a NOT']",
